@@ -113,6 +113,8 @@ async function testNeuralNet() {
 ```
 TIP: Fehler traten bei den folgenden Parteien auf: Tierschutz-allianz,Tierschutz-partei,UNABHÄNGIGE,V-Partei³
 
+Somit ist unsere KI bisher in der Lage, alle großen Parteien des deutschen Bundestages korrekt zu klassifizieren, allerdings nur, falls die Fragen exakt beantwortet werden. Bisher ist es möglich, die Ähnlichkeit zu einer Partei anhand der `Manhattan-Metrik` zu bestimmen. Somit ist nach bisherigem Stand kein neuronales Netz notwendig. Dies wollen wir mit diesem Projekt ändern und das neuronale Netz für das Problem "Wählen von Parteien" konkurrenzfähig machen.
+
 
 * Es ist niemals vorgesehen, dass diese Vorhersagen tatsächlich der Partei entsprechen, welche für die Person definitiv zutreffend ist.
 * Das Ziel ist nicht, für Personen die richtigen Parteien zu finden, sondern herauszufinden, ob wir eine KI entwickeln können, welche sehr nahe an die Ergebnisse des Wahl-O-Maten herankommen
