@@ -12,4 +12,51 @@ endif::[]
 
 Hier entsteht unser Projekt
 
-## 📝 Blog:
+## 📝 TODO:
+
+* Welcher Partei gehöre ich in den einzelnen Sections an ?
+* Welcher Partei stimme ich am meisten zu ?
+* Welche Parteien stimmen mir (live) am meisten zu?
+* * also eine Art Live-Ansicht mit den aktuell ansprechendsten Parteien
+* Detaillierte Einblicke nach Beenden der Umfrage:
+* * Wann habe ich welcher Partei zugestimmt
+* * Wie antworten die einzelnen Parteien auf die einzelnen Fragen
+
+
+## Model:
+
+* Es gibt 36 Parteien, 2^5 = 32 < 36 < 64 = 2^6
+* Lasse das Model ab 5 beantworteten Fragen bereits mit jeder Frage die Partei erraten, dadurch gewinnt es noch mehr Trainingsdaten
+* Für n = 5, ..., 36 gibt es dann zusätzliche 31 Inputs pro Partei
+* Lasse Nutzer:innen das Model trainieren: 
+* * Nutzer:innen beantworten die Fragen
+* * Messe, wie lange eine vollständige der Beantwortung der Fragen dauerte
+* * Bestimme den Durchschnitt aller Dauern
+* * Bilde ein geeignetes Signifikanzintervall um den Durchschnitt
+* * Liegt eine Befragung unterhalb des Signifikanzintervalls, so wird sie beim Training nicht beachtet, aber trotzdem persistiert, um das berechnete Signifikanzintervall zu aktualisieren (Grenzen auf neue durchschnittliche Bearbeitungszeit aktualisieren)
+* * Trainiere das Model mit jedem von den Nutzer:innen abgeschickten und validen (inklusive glaubwürdiger Bearbeitungsdauer) Antworten.
+
+## Bisherige Performance:
+
+* Bisher ist das Model in der Lage 32 von 36 Parteien korrekt vorherzusagen
+* Es ist niemals vorgesehen, dass diese Vorhersagen tatsächlich der Partei entsprechen, welche für die Person definitiv zutreffend ist.
+* Das Ziel ist nicht, für Personen die richtigen Parteien zu finden, sondern herauszufinden, ob wir eine KI entwickeln können, welche sehr nahe an die Ergebnisse des Wahl-O-Maten herankommen
+* Aus diesem Grund stellen wir Nutzer:innen nach der Bearbeitung die folgenden beiden Fragen:
+* * 1. Wurde das Ergebnis erwartet?
+* * 2. Möchte der/die Nutzer:in angeben, welches Ergebnis korrekt gewesen wäre?
+* Dadurch ermöglichen wir uns, die Gewichte entsprechend der hier angegebenen Informationen zu trainieren
+* * Denn: Wir erhalten die beantworteten Fragen der Nutzer:innen und erhalten durch Frage (2) ein korrektes Label für diese Antworten
+* * Hier ist das Problem: Nutzer:innen könnten bewusst falsche Angaben machen
+* * Falsche Angaben an dieser Stelle lassen sich nur durch einen ausreichend großen vorbereiteten Trainingsdatensatz auffangen.
+* * Sammeln wir vor der öffentlichen Nutzung der KI genug Daten, können wir über zusätzliches Clustering oder Claasification (KNN z.B.) überprüfen, ob die Antworten nicht zu einer anderen Partei passen würden
+* Eventuell wäre es ratsam, auf lange Sicht gesehen die KI durch ein Clustering  zusätzlich zu unterstützen
+* Dadurch können die Ergebnisse beider Models miteinander verglichen werden
+
+## Optimierung der KI:
+
+* Um das neuronale Netzwerk zu optimieren versuchen wir, dass unaktivierte Neuronen gegebenenfalls aus dem neuronalen Netz entfernt werden.
+* Dadurch verringern wir zum Einen die Trainingsdauer erheblich und zum Anderen können dann alle übrigen Gewichte von Beginn des Trainings an besser aktualisiert werden
+* Entferne permanent nicht-aktivierte Neuronen aus dem neuronalen Netz, falls diese existieren. Dadurch können Fragen, welche eventuell nichts zu der Classification beitragen entfernt werden
+* * Eigentlich ist dieser Ansatz schlecht, da wir die Parteien möglichst über alle Fragen (88 Dimensionen) klassifizieren wollen.
+* * Wir könnten allerdings das verkleinerte Model (entfernte Parameter und Neuronen) als dritte Instanz bei der Entscheidung der Klassifizierung einbauen
+* * Dadurch würden drei Models über die Klassifizierung abstimmen, welche alle jeweils andere Parameter berücksichtigen (mit gewissen Schnittmengen)
