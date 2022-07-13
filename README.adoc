@@ -60,3 +60,7 @@ Hier entsteht unser Projekt
 * * Eigentlich ist dieser Ansatz schlecht, da wir die Parteien möglichst über alle Fragen (88 Dimensionen) klassifizieren wollen.
 * * Wir könnten allerdings das verkleinerte Model (entfernte Parameter und Neuronen) als dritte Instanz bei der Entscheidung der Klassifizierung einbauen
 * * Dadurch würden drei Models über die Klassifizierung abstimmen, welche alle jeweils andere Parameter berücksichtigen (mit gewissen Schnittmengen)
+* Die Eingabevektoren (shape[36,88]) könnten um eine zusätzliche Dimension erweitert werden.
+* * Diese zusätzliche Dimension könnte möglicherweise ein Score der Partei sein, also einfach die Summe der Antworten auf alle Fragen
+* * Es wäre auch möglich für jede Kategorie eine zusätzliche Dimension hinzuzufügen, welche jeweils den Score einer Dimension berechnet
+* * Hier ist die Überlegung, ein zusätzliches neuronales Netz zu trainieren, welches nur die Scores der Dimensionen und den Gesamtscore einer Partei erfährt.
