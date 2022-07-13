@@ -17,10 +17,10 @@ Hier entsteht unser Projekt
 * Welcher Partei gehöre ich in den einzelnen Sections an ?
 * Welcher Partei stimme ich am meisten zu ?
 * Welche Parteien stimmen mir (live) am meisten zu?
-* * also eine Art Live-Ansicht mit den aktuell ansprechendsten Parteien
+- * also eine Art Live-Ansicht mit den aktuell ansprechendsten Parteien
 * Detaillierte Einblicke nach Beenden der Umfrage:
-* * Wann habe ich welcher Partei zugestimmt
-* * Wie antworten die einzelnen Parteien auf die einzelnen Fragen
+- * Wann habe ich welcher Partei zugestimmt
+- * Wie antworten die einzelnen Parteien auf die einzelnen Fragen
 
 
 ## Model:
