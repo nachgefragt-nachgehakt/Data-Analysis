@@ -111,6 +111,9 @@ async function testNeuralNet() {
  * The errors occured while trying to predict Tierschutz-allianz,Tierschutz-partei,UNABHÄNGIGE,V-Partei³
  */
 ```
+TIP: Fehler traten bei den folgenden Parteien auf: Tierschutz-allianz,Tierschutz-partei,UNABHÄNGIGE,V-Partei³
+
+
 * Es ist niemals vorgesehen, dass diese Vorhersagen tatsächlich der Partei entsprechen, welche für die Person definitiv zutreffend ist.
 * Das Ziel ist nicht, für Personen die richtigen Parteien zu finden, sondern herauszufinden, ob wir eine KI entwickeln können, welche sehr nahe an die Ergebnisse des Wahl-O-Maten herankommen
 * Aus diesem Grund stellen wir Nutzer:innen nach der Bearbeitung die folgenden beiden Fragen:
