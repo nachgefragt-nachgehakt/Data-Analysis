@@ -912,6 +912,47 @@ async function testNeuralNet() {
  */
 ```
 
+The next step is to improve the performance of the neural network. Thus we will add scores for each category and add those scores as new parameters (dimensions).
+
+To get all categories, one can do the following:
+
+```javascript
+[...[...[...document.querySelectorAll(".tabscroll")].map(table => [...table.firstElementChild.rows]).map(array => array.splice(1, array.length-2))].flat()[0].cells].map(c => c.innerText)
+```
+
+This will result in:
+
+```javascript
+0: (3) [tr, tr, tr]
+1: (6) [tr, tr, tr, tr, tr, tr]
+2: (5) [tr, tr, tr, tr, tr]
+3: (6) [tr, tr, tr, tr, tr, tr]
+4: (5) [tr, tr, tr, tr, tr]
+5: (5) [tr, tr, tr, tr, tr]
+6: (4) [tr, tr, tr, tr]
+7: (4) [tr, tr, tr, tr]
+8: (2) [tr, tr]
+9: (4) [tr, tr, tr, tr]
+10: (4) [tr, tr, tr, tr]
+11: (3) [tr, tr, tr]
+12: (2) [tr, tr]
+13: (4) [tr, tr, tr, tr]
+14: (8) [tr, tr, tr, tr, tr, tr, tr, tr]
+15: (5) [tr, tr, tr, tr, tr]
+16: (3) [tr, tr, tr]
+17: (4) [tr, tr, tr, tr]
+18: (5) [tr, tr, tr, tr, tr]
+19: (6) [tr, tr, tr, tr, tr, tr]
+```
+
+which is a list consisting of all questions from each category, respectively 20 categories. To verify, that we got all 88 questions, we can simply reduce the categories by their length and sum those lengths:
+
+```javascript
+[...[...[...document.querySelectorAll(".tabscroll")].map(table => [...table.firstElementChild.rows])]].map(table => table.slice(1, table.length - 1)).reduce((sum, category) => sum + category.length, 0)
+```
+
+This results in 88 as expected. 
+
 ## Notes:
 
 - dimension is very high with 88 elements
