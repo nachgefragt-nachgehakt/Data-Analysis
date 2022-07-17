@@ -10,7 +10,7 @@ endif::[]
 
 ## ℹ️ Introduction:
 
-Hier entsteht unser Projekt
+Hier entsteht unser Projekt.
 
 ## 📝 TODO:
 
