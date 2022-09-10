@@ -557,10 +557,12 @@ class Data {
 
   static getRandomVector = () => new Vector(new Array(88).fill(0).map(e => Math.round(Math.random())));
 
-  static findClosesParties(data, n = 5) {
-    let vector = new Vector(data);
-    return Data.partiesWithVectors().sort(
-      party => party.value.getTotalDifference(vector)
-    ).slice(0,n)
+  static findClosestParties(data, n = 5) {
+    return parties.sort((p1,p2) => {
+      return p1.value.getTotalDifference(data) - p2.value.getTotalDifference(data)
+    }).map(party => {
+      party.distance = party.value.getTotalDifference(data);
+      return party
+    }).slice(0,n)
   }
 }
