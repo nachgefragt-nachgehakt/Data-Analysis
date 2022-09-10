@@ -45,11 +45,67 @@ image::https://github.com/nachgefragt-nachgehakt/Data-Analysis/blob/main/src/img
 * Bisher ist das Model in der Lage 32 von 36 Parteien korrekt vorherzusagen:
 
 ```javascript
+// neural network:
+let inputLabels = [];
+const parties = Data.parties();
+const partiesWithVectors = parties.map(
+    party => {
+        party.value = new Vector(party.value.values)
+        return party;
+    }
+)
+
+for(let i = 1; i <= parties[0].value.values.length; i++) inputLabels.push(`x${i}`);
+
+// Helper function to transform 
+function arrayToObject(array) {
+    
+    let dataMap = new Map();
+    
+    for(let i = 0; i < array.length; i++) {
+        dataMap.set(`x${i+1}`, array[i]);
+    }  
+    
+    return Object.fromEntries(dataMap);
+}
+
+// Sigmoid function
+function sig(t) {
+    return 1 / ( 1 + Math.pow(Math.E, -t));
+}
+
+
+let inputs = parties.map(party => arrayToObject(party.value.values));
+
+const options = {
+    task: 'classification',
+    inputs: inputLabels,
+    outputs: ['output'],
+    debug: true,
+    layers: [
+        {
+          type: 'dense',
+          units: 88,
+          activation: 'relu'
+        },
+        {
+          type: 'dense',
+          units: 64,
+          activation: 'relu'
+        },
+        {
+          type: 'dense',
+          units: 36,
+          activation: 'sigmoid'
+        }
+      ]
+  }
+
 const nn = ml5.neuralNetwork(options);
 
 inputs.forEach(
     (party, index) => {
-        nn.addData(party, {output: partiesWithTotalValue[index].name});
+        nn.addData(party, {output: parties[index].name});
     }
 )
 
@@ -57,7 +113,7 @@ nn.normalizeData();
 
 const trainingOptions = {
     epochs: 512,
-    batchSize: 36
+    batchSize: 18
 }
 
 /* Saved for later
@@ -67,12 +123,14 @@ const modelInfo = {
     weights: 'trained_model/model.weights.bin',
 };
 nn.load(modelInfo, modelLoadedCallback);
+
 function modelLoadedCallback() {}*/
 
-nn.train(trainingOptions, finishedTraining);
+let train = () => nn.train(trainingOptions, finishedTraining);
 
 function finishedTraining() {
     console.log('Training finished.');
+    testNeuralNet(saveErrorParties)
 }
 
 function handleResults(error, result) {
@@ -81,6 +139,13 @@ function handleResults(error, result) {
       return;
     }
     console.log(result); // {label: 'red', confidence: 0.8};
+}
+
+let errorParties = [];
+
+function saveErrorParties(errorParties_) {
+    errorPartyNames = errorParties_;
+    errorParties = errorPartyNames.map(partyName => findPartyByName(partyName));
 }
 
 // Method to retrieve predictions as table and list
@@ -96,24 +161,37 @@ async function testSinglePrediction(input, expected) {
 }
 
 // Method for testing the whole neural network
-async function testNeuralNet() {
+async function testNeuralNet(callback) {
     let errors = 0;
     let errorParties = []
-    for(let i = 0; i < inputs.length; i++) {
-        if(!await testSinglePrediction(inputs[i], partiesWithTotalValue[i].name)) {
+    for(let i = 0; i < inputs.length; i++) {  
+        if(!await testSinglePrediction(inputs[i], parties[i].name)) {
             errors++;
-            errorParties.push(partiesWithTotalValue[i].name);
+            errorParties.push(parties[i].name);
         }
     }
 
     console.log(`${errors} errors while testing ${inputs.length} predictions.`);
     console.log(`The errors occured while trying to predict ${errorParties}`);
+
+    return callback ? callback(errorParties) : null;
+}
+
+// Utilities to evaluate the results
+function findPartyByName(name) {
+    return partiesWithVectors.find(party => party.name == name);
 }
 
 /* (Result for 256 epochs)
  * 4 errors while testing 36 predictions.
- * The errors occured while trying to predict Tierschutz-allianz,Tierschutz-partei,UNABHÄNGIGE,V-Partei³
+ * The errors occured while trying to predict DieHumanisten,DiB,UNABHÄNGIGE,Gesundheits-forschung
  */
+const errorPartyNamesAfterTraining = [
+    "DieHumanisten",
+    "DiB",
+    "UNABHÄNGIGE",
+    "Gesundheits-forschung"
+];
 ```
 TIP: Fehler traten bei den folgenden Parteien auf: Tierschutz-allianz,Tierschutz-partei,UNABHÄNGIGE,V-Partei³
 
