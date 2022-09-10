@@ -20,6 +20,10 @@ class Vector {
 
     getParticipation = () => this.getTotalDifference(new Vector(new Array(this.values.length).fill(0)));
 
+    getPartialVector = (indices) => {
+        return indices.map(index => this.getValues()[index])
+    }
+
     // finding the right metric to form the party landscape (left, center, right)
     getParticipationFactor = () => this.getParticipation() / this.values.length;
 }
