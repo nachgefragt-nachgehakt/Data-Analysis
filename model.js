@@ -59,7 +59,7 @@ inputs.forEach(
 nn.normalizeData();
 
 const trainingOptions = {
-    epochs: 256,
+    epochs: 512,
     batchSize: 18
 }
 
@@ -77,6 +77,7 @@ let train = () => nn.train(trainingOptions, finishedTraining);
 
 function finishedTraining() {
     console.log('Training finished.');
+    testNeuralNet(saveErrorParties)
 }
 
 function handleResults(error, result) {
@@ -85,6 +86,13 @@ function handleResults(error, result) {
       return;
     }
     console.log(result); // {label: 'red', confidence: 0.8};
+}
+
+let errorParties = [];
+
+function saveErrorParties(errorParties_) {
+    errorPartyNames = errorParties_;
+    errorParties = errorPartyNames.map(partyName => findPartyByName(partyName));
 }
 
 // Method to retrieve predictions as table and list
@@ -100,7 +108,7 @@ async function testSinglePrediction(input, expected) {
 }
 
 // Method for testing the whole neural network
-async function testNeuralNet() {
+async function testNeuralNet(callback) {
     let errors = 0;
     let errorParties = []
     for(let i = 0; i < inputs.length; i++) {  
@@ -112,9 +120,24 @@ async function testNeuralNet() {
 
     console.log(`${errors} errors while testing ${inputs.length} predictions.`);
     console.log(`The errors occured while trying to predict ${errorParties}`);
+
+    return callback ? callback(errorParties) : null;
+}
+
+// Utilities to evaluate the results
+function findPartyByName(name) {
+    return parties.find(party => party.name == name);
 }
 
 /* (Result for 256 epochs)
  * 4 errors while testing 36 predictions.
- * The errors occured while trying to predict Tierschutz-allianz,Tierschutz-partei,UNABHÄNGIGE,V-Partei³
+ * The errors occured while trying to predict DieHumanisten,DiB,UNABHÄNGIGE,Gesundheits-forschung
  */
+const errorPartyNamesAfterTraining = [
+    "DieHumanisten",
+    "DiB",
+    "UNABHÄNGIGE",
+    "Gesundheits-forschung"
+];
+
+const wrongClassifiedParties = errorPartyNamesAfterTraining.map(party => findPartyByName(party));
