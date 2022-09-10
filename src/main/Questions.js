@@ -4,4 +4,15 @@ class Questions {
   } 
 
   static getQuestionList = () => Questions.getall().map(category => category.map(q => q.slice(0, q.indexOf("\t"))))
+
+  static getRandomSample(n = 18) {
+    let indices = [];
+    while(indices.length < n) {
+      let randomNumber = Math.round(Math.random() * Questions.getQuestionList().flat().length)
+      if(!indices.includes(randomNumber)) {
+        indices.push(randomNumber);
+      }
+    }
+    return indices.map(index => {return {index: index, question: Questions.getQuestionList().flat()[index]} });
+  }
 }
