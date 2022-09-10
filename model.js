@@ -29,7 +29,7 @@ const options = {
     inputs: inputLabels,
     outputs: ['output'],
     debug: true,
-    /*layers: [
+    layers: [
         {
           type: 'dense',
           units: 88,
@@ -37,15 +37,15 @@ const options = {
         },
         {
           type: 'dense',
-          units: 24,
-          activation: 'sigmoid'
+          units: 64,
+          activation: 'relu'
         },
         {
           type: 'dense',
-          units: 1,
+          units: 36,
           activation: 'sigmoid'
         }
-      ]*/
+      ]
   }
 
 const nn = ml5.neuralNetwork(options);
@@ -59,8 +59,8 @@ inputs.forEach(
 nn.normalizeData();
 
 const trainingOptions = {
-    epochs: 1024,
-    batchSize: 36
+    epochs: 256,
+    batchSize: 18
 }
 
 /* Saved for later
@@ -73,7 +73,7 @@ nn.load(modelInfo, modelLoadedCallback);
 
 function modelLoadedCallback() {}*/
 
-nn.train(trainingOptions, finishedTraining);
+let train = () => nn.train(trainingOptions, finishedTraining);
 
 function finishedTraining() {
     console.log('Training finished.');
