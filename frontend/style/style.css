@@ -3,7 +3,7 @@ body {
     text-align: center;
 }
 
-#test, #test>div {
+#test, #test>div, #question-container {
     margin: auto;
     text-align: center;
 }
@@ -11,4 +11,13 @@ body {
 .test-result {
     font-size: 1.2rem;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.question {
+    border: 0.1px solid lightgrey;
+    border-radius: 5px;
+    margin: 16px auto;
+    max-width: 512px;
+    padding: 18px;
+    font-size: 1.1rem;
 }
