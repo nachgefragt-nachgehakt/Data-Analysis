@@ -38,6 +38,10 @@ Hier entsteht unser Projekt.
 
 ## Bisherige Performance:
 
+Mit einem Training von 512 Epochs kommt das Model auf einen Loss von ungefähr 0.00171
+
+image::https://github.com/nachgefragt-nachgehakt/Data-Analysis/blob/main/src/img/training.PNG?raw=true[]
+
 * Bisher ist das Model in der Lage 32 von 36 Parteien korrekt vorherzusagen:
 
 ```javascript
