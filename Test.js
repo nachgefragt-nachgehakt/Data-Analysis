@@ -36,10 +36,11 @@ const TESTS = [
 
         return vectorA.getTotalDifference(vectorB);
     }(), 0, "equality for length 88"),
+    // test if the method generates at least one vector which is different.
     test(function() {
         let randomVectors = new Array(88).fill(0).map(() => Data.getRandomVector())
         let anotherRandomVector = Data.getRandomVector();
-        return randomVectors.map(v => anotherRandomVector.equalTo(v)).includes(false);
+        return randomVectors.map(v => anotherRandomVector.equals(v)).includes(false);
     }(), true, "Data.getRandomVector() generates different vectors"),
     
 ];
