@@ -1,7 +1,8 @@
 // neural network:
 let inputLabels = [];
+const parties = Data.parties();
 
-for(let i = 1; i <= partiesWithTotalValue[0].value.values.length; i++) inputLabels.push(`x${i}`);
+for(let i = 1; i <= parties[0].value.values.length; i++) inputLabels.push(`x${i}`);
 
 // Helper function to transform 
 function arrayToObject(array) {
@@ -21,7 +22,7 @@ function sig(t) {
 }
 
 
-let inputs = partiesWithTotalValue.map(party => arrayToObject(party.value.values));
+let inputs = parties.map(party => arrayToObject(party.value.values));
 
 const options = {
     task: 'classification',
@@ -51,7 +52,7 @@ const nn = ml5.neuralNetwork(options);
 
 inputs.forEach(
     (party, index) => {
-        nn.addData(party, {output: partiesWithTotalValue[index].name});
+        nn.addData(party, {output: parties[index].name});
     }
 )
 
@@ -103,9 +104,9 @@ async function testNeuralNet() {
     let errors = 0;
     let errorParties = []
     for(let i = 0; i < inputs.length; i++) {  
-        if(!await testSinglePrediction(inputs[i], partiesWithTotalValue[i].name)) {
+        if(!await testSinglePrediction(inputs[i], parties[i].name)) {
             errors++;
-            errorParties.push(partiesWithTotalValue[i].name);
+            errorParties.push(parties[i].name);
         }
     }
 
