@@ -1,6 +1,12 @@
 // neural network:
 let inputLabels = [];
 const parties = Data.parties();
+const partiesWithVectors = parties.map(
+    party => {
+        party.value = new Vector(party.value.values)
+        return party;
+    }
+)
 
 for(let i = 1; i <= parties[0].value.values.length; i++) inputLabels.push(`x${i}`);
 
@@ -141,3 +147,18 @@ const errorPartyNamesAfterTraining = [
 ];
 
 const wrongClassifiedParties = errorPartyNamesAfterTraining.map(party => findPartyByName(party));
+const wrongPartiesAsVectors = wrongClassifiedParties.map(party => {
+    party.value = new Vector(party.value.values);
+    return party
+})
+
+// print differences between all wrong parties
+wrongPartiesAsVectors.forEach(party => {
+    const table = []
+    wrongPartiesAsVectors.forEach(anotherParty => {
+        if(party.name != anotherParty.name) {
+            table.push(`${party.name}, ${anotherParty.name}, ${party.value.getTotalDifference(anotherParty.value)}`)
+        }
+    })
+    console.table(table);
+})
