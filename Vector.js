@@ -14,8 +14,8 @@ class Vector {
         return diff;
     }
 
-    equalTo(anotherVector) {
-        return this.getTotalDifference(anotherVector);
+    equals(anotherVector) {
+        return this.getTotalDifference(anotherVector) == 0;
     }
 
     getParticipation = () => this.getTotalDifference(new Vector(new Array(this.values.length).fill(0)));
