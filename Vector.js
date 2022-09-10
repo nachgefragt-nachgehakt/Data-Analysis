@@ -14,6 +14,10 @@ class Vector {
         return diff;
     }
 
+    equalTo(anotherVector) {
+        return this.getTotalDifference(anotherVector);
+    }
+
     getParticipation = () => this.getTotalDifference(new Vector(new Array(this.values.length).fill(0)));
 
     // finding the right metric to form the party landscape (left, center, right)

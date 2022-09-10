@@ -132,7 +132,7 @@ async function testNeuralNet(callback) {
 
 // Utilities to evaluate the results
 function findPartyByName(name) {
-    return parties.find(party => party.name == name);
+    return partiesWithVectors.find(party => party.name == name);
 }
 
 /* (Result for 256 epochs)
@@ -162,3 +162,35 @@ wrongPartiesAsVectors.forEach(party => {
     })
     console.table(table);
 })
+
+// print differences between all wrong parties
+wrongPartiesAsVectors.forEach(party => {
+    const table = []
+    partiesWithVectors.forEach(anotherParty => {
+        if(party.name != anotherParty.name) {
+            table.push(`${party.name}, ${anotherParty.name}, ${party.value.getTotalDifference(anotherParty.value)}`)
+        }
+    })
+    console.table(table);
+})
+
+const closeParties = [];
+
+/*partiesWithVectors.forEach(party => {
+    const table = []
+    partiesWithVectors.forEach(anotherParty => {
+        if(party.name != anotherParty.name) {
+            if(party.value.getTotalDifference(anotherParty.value) < 10) {
+                closeParties.push(`${party.name}, ${anotherParty.name}, ${party.value.getTotalDifference(anotherParty.value)}`);
+            }
+            table.push(`${party.name}, ${anotherParty.name}, ${party.value.getTotalDifference(anotherParty.value)}`)
+        }
+    })
+    console.table(table);
+})*/
+
+if(closeParties.length > 0) {
+    console.log(`There are ${closeParties.length} parties close to each other`)
+}
+
+const randomVector = new Vector()

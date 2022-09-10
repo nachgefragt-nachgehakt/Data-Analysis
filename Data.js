@@ -547,4 +547,20 @@ class Data {
       },
     ];
   }
+
+  static partiesWithVectors = () => Data.parties().map(
+        party => {
+            party.value = new Vector(party.value.values)
+            return party;
+        }
+  )
+
+  static getRandomVector = () => new Vector(new Array(88).fill(0).map(e => Math.round(Math.random())));
+
+  static findClosesParties(data, n = 5) {
+    let vector = new Vector(data);
+    return Data.partiesWithVectors().sort(
+      party => party.value.getTotalDifference(vector)
+    ).slice(0,n)
+  }
 }
